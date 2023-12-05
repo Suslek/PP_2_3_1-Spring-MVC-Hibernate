@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:if = "${user.id != null}">
+        Edit
+    </title>
+    <title th:if = "${user.id == null}">
+        Create
+    </title>
+
+</head>
+<body>
+
+<form  action="#" th:action = "${user.id == null} ? @{/create} : @{/edit}" th:object = "${user}" method="POST">
+    <p th:if="${user.id != null }"><input type = "hidden" name = "id" th:field ="*{id}" /></p>
+    <p> First Name <label>
+        <input type = "text" name = "firstName" th:field ="*{firstName}" />
+    </label></p>
+    <p> Last Name <label>
+        <input type = "text" name = "lastName" th:field ="*{lastName}" />
+    </label></p>
+    <p> Email <label>
+        <input type = "text" name = "email" th:field ="*{email}" />
+    </label></p>
+    <p th:if="${user.id != null}"><input type = "submit" value = "Update User"> </p>
+    <p th:if="${user.id == null}"><input type = "submit" value = "Create User"> </p>
+</form>
+
+</body>
+</html>
