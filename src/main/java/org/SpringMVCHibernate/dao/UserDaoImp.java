@@ -1,9 +1,11 @@
 package org.SpringMVCHibernate.dao;
 
 import org.SpringMVCHibernate.model.User;
-import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -11,35 +13,47 @@ import java.util.List;
 @Repository
 public class UserDaoImp implements UserDao{
 
-    private final SessionFactory sessionFactory;
+    private final EntityManager entityManager;
 
-    public UserDaoImp(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    @Autowired
+    public UserDaoImp(@Qualifier("getEntityManager") EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Override
     public List<User> getUsers() {
-        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
+        TypedQuery<User> query = entityManager.createQuery("from User", User.class);
         return query.getResultList();
     }
 
     @Override
     public void createUser(User user) {
-        sessionFactory.getCurrentSession().save(user);
+        entityManager.getTransaction().begin();
+        entityManager.persist(user);
+        entityManager.flush();
+        entityManager.getTransaction().commit();
     }
 
     @Override
     public void updateUser(User user) {
-        sessionFactory.getCurrentSession().update(user);
+        entityManager.getTransaction().begin();
+        entityManager.merge(user);
+        entityManager.flush();
+        entityManager.getTransaction().commit();
     }
 
     @Override
     public void deleteUser(User user) {
-        sessionFactory.getCurrentSession().delete(user);
+        entityManager.getTransaction().begin();
+        entityManager.remove(user);
+        entityManager.flush();
+        entityManager.getTransaction().commit();
     }
 
     @Override
     public User getById(Long id) {
-        return sessionFactory.getCurrentSession().get(User.class, id);
+        entityManager.getTransaction().begin();
+        entityManager.getTransaction().commit();
+        return entityManager.find(User.class, id);
     }
 }
