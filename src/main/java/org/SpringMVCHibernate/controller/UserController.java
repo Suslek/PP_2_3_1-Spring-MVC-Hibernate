@@ -5,7 +5,6 @@ import org.SpringMVCHibernate.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
@@ -29,33 +28,26 @@ public class UserController {
     }
 
     @PostMapping (value = "/edit")
-    public ModelAndView editUser(@ModelAttribute("user") User user) {
-        ModelAndView model = new ModelAndView();
-        userService.updateUser(user);
-        model.setViewName("redirect:/");
-        return model;
+    public String editUser(User user) {
+        userService.saveUser(user);
+        return ("redirect:/");
     }
 
     @GetMapping(value = "/delete/")
-    public ModelAndView deleteUse(@RequestParam Long id) {
-        ModelAndView model = new ModelAndView();
+    public String deleteUser(@RequestParam Long id) {
         User user = userService.getById(id);
         userService.deleteUser(user);
-        model.setViewName("redirect:/");
-        return model;
+        return ("redirect:/");
     }
 
     @GetMapping(value = "/create")
-    public String createPage(ModelMap model){
-        model.addAttribute("user", new User());
+    public String createPage(User user){
         return "editPage";
     }
 
     @PostMapping(value = "/create")
-    public ModelAndView createUser(@ModelAttribute("user") User user ) {
-        ModelAndView model = new ModelAndView();
-        model.setViewName("redirect:/");
-        userService.createUser(user);
-        return model;
+    public String createUser(User user ) {
+        userService.saveUser(user);
+        return ("redirect:/");
     }
 }

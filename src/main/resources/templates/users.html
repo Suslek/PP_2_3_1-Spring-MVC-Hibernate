@@ -20,8 +20,8 @@
         <td th:text="${user.getLastName()}"></td>
         <td th:text="${user.getEmail()}"></td>
         <td>
-            <a href="editPage.html" th:href="@{/edit/(id=${user.getId()})}">edit</a>
-            <a href="#" th:href="@{/delete/(id=${user.getId()})}">delete</a>
+            <a href="editPage.html" th:href="@{/edit/(id=${user.getId()})}">Edit</a>
+            <a href="#" th:href="@{/delete/(id=${user.getId()})}">Delete</a>
         </td>
     </tr>
 </table>

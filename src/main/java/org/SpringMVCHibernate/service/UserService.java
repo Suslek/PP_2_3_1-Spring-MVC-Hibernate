@@ -8,9 +8,7 @@ public interface UserService {
 
     List<User> getUsers();
 
-    void createUser(User user);
-
-    void updateUser(User user);
+    void saveUser(User user);
 
     void deleteUser(User user);
 
