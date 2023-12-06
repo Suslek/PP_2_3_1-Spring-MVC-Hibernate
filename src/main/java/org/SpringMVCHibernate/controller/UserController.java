@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/delete/")
-    public ModelAndView deleteUse(@RequestParam Long id) {
+    public ModelAndView deleteUser(@RequestParam Long id) {
         ModelAndView model = new ModelAndView();
         User user = userService.getById(id);
         userService.deleteUser(user);
