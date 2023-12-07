@@ -27,6 +27,11 @@ public class UserServiceImp implements UserService{
     public void saveUser(User user) {
         userRepository.save(user);
     }
+    @Transactional
+    @Override
+    public void updateUser(User user) {
+        userRepository.save(user);
+    }
 
     @Transactional
     @Override
