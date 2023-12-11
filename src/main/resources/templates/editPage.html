@@ -23,9 +23,23 @@
     <p> Email <label>
         <input type = "text" name = "email" th:field ="*{email}" />
     </label></p>
+    <p> Username <label>
+        <input type = "text" name = "username" th:field ="*{username}" />
+    </label></p>
+    <p> Password <label>
+        <input type = "text" name = "password" th:field ="*{password}" />
+    </label></p>
     <p th:if="${user.id != null}"><input type = "submit" value = "Update User"> </p>
     <p th:if="${user.id == null}"><input type = "submit" value = "Create User"> </p>
 </form>
+
+
+<a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
+<div>
+    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+        <input hidden type="submit" value="Sign Out"/>
+    </form>
+</div>
 
 </body>
 </html>

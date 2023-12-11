@@ -5,36 +5,27 @@
     <title>Users</title>
 </head>
 <body>
-<h1>Users</h1>
+<h1>User Info</h1>
 <table>
     <tr>
-        <th>Id</th>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Email</th>
         <th>Username</th>
-        <th>Action</th>
     </tr>
-    <tr th:each="user :${users}">
-        <td th:text="${user.getId()}"></td>
+    <tr>
         <td th:text="${user.getFirstName()}"></td>
         <td th:text="${user.getLastName()}"></td>
         <td th:text="${user.getEmail()}"></td>
         <td th:text="${user.getUsername()}"></td>
-        <td>
-            <a href="editPage.html" th:href="@{/admin/edit/(id=${user.getId()})}">Edit</a>
-            <a href="#" th:href="@{/admin/delete/(id=${user.getId()})}">Delete</a>
-        </td>
     </tr>
 </table>
 
-<a href="#" th:href="@{/admin/create}">Add new user</a>
-
 <a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
 <div>
-<form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
-    <input hidden type="submit" value="Sign Out"/>
-</form>
+    <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+        <input hidden type="submit" value="Sign Out"/>
+    </form>
 </div>
 
 </body>

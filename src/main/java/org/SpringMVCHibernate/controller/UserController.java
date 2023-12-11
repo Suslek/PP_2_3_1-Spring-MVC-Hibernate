@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Controller
 public class UserController {
 
@@ -15,13 +17,34 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping(value = "/login")
+    public String loginPage() {
+        return "login";
+    }
+
+    @GetMapping (value = "/logout")
+    public String logout() {
+        return "redirect:/";
+    }
+
     @GetMapping(value = "/")
-    public String displayUsers(ModelMap model) {
+    public String homePage() {
+        return "homePage";
+    }
+
+    @GetMapping(value = "/user")
+    public String displayUserInfo(ModelMap model, Principal principal) {
+        model.addAttribute("user", userService.getByUsername(principal.getName()));
+        return "user";
+    }
+
+    @GetMapping(value = "/admin")
+    public String adminPage(ModelMap model) {
         model.addAttribute("users", userService.getUsers());
         return "users";
     }
 
-    @GetMapping(value = "/edit/")
+    @GetMapping(value = "/admin/edit/")
     public String editPage(ModelMap model, @RequestParam Long id){
         model.addAttribute("user", userService.getById(id));
         return "editPage";
@@ -30,17 +53,17 @@ public class UserController {
     @PostMapping (value = "/edit")
     public String editUser(User user) {
         userService.updateUser(user);
-        return ("redirect:/");
+        return ("redirect:/admin");
     }
 
-    @GetMapping(value = "/delete/")
+    @GetMapping(value = "/admin/delete/")
     public String deleteUser(@RequestParam Long id) {
         User user = userService.getById(id);
         userService.deleteUser(user);
-        return ("redirect:/");
+        return ("redirect:/admin");
     }
 
-    @GetMapping(value = "/create")
+    @GetMapping(value = "/admin/create")
     public String createPage(User user){
         return "editPage";
     }
@@ -48,6 +71,6 @@ public class UserController {
     @PostMapping(value = "/create")
     public String createUser(User user ) {
         userService.saveUser(user);
-        return ("redirect:/");
+        return ("redirect:/admin");
     }
 }
