@@ -27,7 +27,7 @@
         <input type = "text" name = "username" th:field ="*{username}" />
     </label></p>
     <p> Password <label>
-        <input type = "text" name = "password" th:field ="*{password}" />
+        <input type = "password" name = "password" th:field ="*{password}" />
     </label></p>
     <p th:if="${user.id != null}"><input type = "submit" value = "Update User"> </p>
     <p th:if="${user.id == null}"><input type = "submit" value = "Create User"> </p>

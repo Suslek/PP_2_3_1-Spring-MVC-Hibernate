@@ -18,6 +18,8 @@ public class WebSecurityConfig {
 
     private final SuccessUserHandler successUserHandler;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
     public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService userService) {
         this.successUserHandler = successUserHandler;
         this.userService = userService;
