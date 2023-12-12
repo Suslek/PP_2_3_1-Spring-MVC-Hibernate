@@ -31,13 +31,12 @@ public class DbInit {
         normalUser.setRoles(Collections.singleton(new Role(1L, "USER")));
         admin.setRoles(set);
 
-        try {
+        if(userService.getByUsername(admin.getUsername()) == null){
             userService.saveUser(admin);
-            userService.saveUser(normalUser);
-        } catch (Exception ignored) {
-
         }
-
+        if(userService.getByUsername(normalUser.getUsername()) == null){
+            userService.saveUser(normalUser);
+        }
 
     }
 }

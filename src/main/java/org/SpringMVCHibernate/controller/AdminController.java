@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
+
 @Controller
 public class AdminController {
 
@@ -21,8 +23,11 @@ public class AdminController {
     }
 
     @GetMapping(value = "/admin")
-    public String viewAdminPage(ModelMap model) {
+    public String viewAdminPage(ModelMap model, Principal principal, User newUser) {
+        model.addAttribute("roles", roleService.getRoles());
         model.addAttribute("users", userService.getUsers());
+        model.addAttribute("user", userService.getByUsername(principal.getName()));
+        model.addAttribute("newUser", new User());
         return "users";
     }
 
