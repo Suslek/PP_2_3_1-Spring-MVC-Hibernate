@@ -10,25 +10,39 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
 
 
-<div class="container text-center">
-<p class="text-center fw-bold fs-3" >Please sign In</p>
+<div class="mx-auto container-fluid row">
+    <div class="mx-auto row gy-4">
+        <div class ="col"></div>
+        <div class ="col">
+<p class="mb-2 ps-2 mx-auto d-grid col-10 fw-bold fs-3">Please sign in</p>
+
 <!--<div th:if="${param.error}">-->
-<!--    Invalid username and password.</div>-->
+<!--    Invalid username and password.-->
+<!--</div>-->
 <!--<div th:if="${param.logout}">-->
-<!--    You have been logged out.</div>-->
+<!--    You have been logged out.-->
+<!--</div>-->
+    <div class="container gy-0">
 <form th:action="@{/login}" method="post">
-    <div class="mb-0 gy-1000">
+    <div class="mb-0 d-grid col-10 mx-auto">
         <label>
             <input type="text" class="form-control" name="username" placeholder="Username"/>
         </label>
     </div>
-    <div class="mb-1 gy-1000">
+    <div class="mb-1 d-grid col-10 mx-auto">
         <label>
             <input type="password" class="form-control" name="password" placeholder="Password"/>
         </label>
     </div>
-    <input type="submit" class="col-sm-2 btn btn-primary" value="Sign in" />
+    <div class="d-grid col-10 mx-auto">
+        <input type="submit" class="btn btn-primary" value="Sign in" />
+    </div>
 </form>
+    </div>
+    </div>
+        <div class ="col"></div>
+    </div>
+
 </div>
 </body>
 </html>
