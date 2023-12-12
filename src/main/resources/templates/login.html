@@ -1,22 +1,34 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Please Log In</title>
+    <title>Please sign In</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body>
-<h1>Please Log In</h1>
-<div th:if="${param.error}">
-    Invalid username and password.</div>
-<div th:if="${param.logout}">
-    You have been logged out.</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+
+
+<div class="container text-center">
+<p class="text-center fw-bold fs-3" >Please sign In</p>
+<!--<div th:if="${param.error}">-->
+<!--    Invalid username and password.</div>-->
+<!--<div th:if="${param.logout}">-->
+<!--    You have been logged out.</div>-->
 <form th:action="@{/login}" method="post">
-    <div>
-        <input type="text" name="username" placeholder="Username"/>
+    <div class="mb-0 gy-1000">
+        <label>
+            <input type="text" class="form-control" name="username" placeholder="Username"/>
+        </label>
     </div>
-    <div>
-        <input type="password" name="password" placeholder="Password"/>
+    <div class="mb-1 gy-1000">
+        <label>
+            <input type="password" class="form-control" name="password" placeholder="Password"/>
+        </label>
     </div>
-    <input type="submit" value="Log in" />
+    <input type="submit" class="col-sm-2 btn btn-primary" value="Sign in" />
 </form>
+</div>
 </body>
 </html>
