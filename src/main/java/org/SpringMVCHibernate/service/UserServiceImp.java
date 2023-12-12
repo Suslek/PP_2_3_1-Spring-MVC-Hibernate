@@ -42,6 +42,10 @@ public class UserServiceImp implements UserService{
     @Transactional
     @Override
     public void updateUser(User user) {
+        User userOld = userRepository.getReferenceById(user.getId());
+        if (user.getPassword() != userOld.getPassword()) {
+            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        }
         userRepository.save(user);
     }
 
@@ -65,7 +69,7 @@ public class UserServiceImp implements UserService{
 
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {
