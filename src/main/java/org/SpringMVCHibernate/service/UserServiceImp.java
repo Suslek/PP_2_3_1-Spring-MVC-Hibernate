@@ -2,7 +2,6 @@ package org.SpringMVCHibernate.service;
 
 import org.SpringMVCHibernate.model.Role;
 import org.SpringMVCHibernate.model.User;
-import org.SpringMVCHibernate.repository.RoleRepository;
 import org.SpringMVCHibernate.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,14 +12,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImp implements UserService{
+public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
+
+
 
     public UserServiceImp(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -32,16 +33,22 @@ public class UserServiceImp implements UserService{
         return userRepository.findAll();
     }
 
+
+
     @Transactional
     @Override
     public void saveUser(User user) {
-        user.setRoles(Collections.singleton(new Role(1L, "USER")));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
+
     @Transactional
     @Override
     public void updateUser(User user) {
+        User userOld = userRepository.getReferenceById(user.getId());
+        if (!Objects.equals(user.getPassword(), userOld.getPassword())) {
+            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        }
         userRepository.save(user);
     }
 
@@ -65,7 +72,7 @@ public class UserServiceImp implements UserService{
 
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {
