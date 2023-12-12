@@ -1,6 +1,7 @@
 package org.SpringMVCHibernate.controller;
 
 import org.SpringMVCHibernate.model.User;
+import org.SpringMVCHibernate.service.RoleService;
 import org.SpringMVCHibernate.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,23 +13,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdminController {
 
     private final UserService userService;
-    public AdminController(UserService userService) {
+    private final RoleService roleService;
+
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping(value = "/admin")
-    public String adminPage(ModelMap model) {
+    public String viewAdminPage(ModelMap model) {
         model.addAttribute("users", userService.getUsers());
         return "users";
     }
 
     @GetMapping(value = "/admin/edit/")
-    public String editPage(ModelMap model, @RequestParam Long id){
+    public String viewEditPage(ModelMap model, @RequestParam Long id) {
         model.addAttribute("user", userService.getById(id));
+        model.addAttribute("roles", roleService.getRoles());
         return "editPage";
     }
 
-    @PostMapping(value = "/edit")
+    @PostMapping(value = "/admin/edit")
     public String editUser(User user) {
         userService.updateUser(user);
         return ("redirect:/admin");
@@ -42,12 +47,13 @@ public class AdminController {
     }
 
     @GetMapping(value = "/admin/create")
-    public String createPage(User user){
+    public String viewCreatePage(ModelMap model,User user) {
+        model.addAttribute("roles", roleService.getRoles());
         return "editPage";
     }
 
-    @PostMapping(value = "/create")
-    public String createUser(User user ) {
+    @PostMapping(value = "/admin/create")
+    public String createUser(User user) {
         userService.saveUser(user);
         return ("redirect:/admin");
     }
