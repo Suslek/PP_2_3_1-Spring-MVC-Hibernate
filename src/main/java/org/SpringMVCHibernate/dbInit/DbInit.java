@@ -32,7 +32,7 @@ public class DbInit {
 
         Set<Role> set = new HashSet<>(roleRepository.findAll());
 
-        normalUser.setRoles(Collections.singleton(new Role(1L, "USER")));
+        normalUser.setRoles(Collections.singleton(new Role(2L, "USER")));
         admin.setRoles(set);
 
         try {
