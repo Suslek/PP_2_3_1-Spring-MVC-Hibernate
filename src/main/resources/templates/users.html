@@ -84,6 +84,7 @@
                                     <th scope="col">Last Name</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Username</th>
+                                    <th style="display:none;" scope="col">Password</th>
                                     <th scope="col">Role</th>
                                     <th scope="col">Edit</th>
                                     <th scope="col">Delete</th>
@@ -96,13 +97,15 @@
                                     <td th:text="${user.getLastName()}"></td>
                                     <td th:text="${user.getEmail()}"></td>
                                     <td th:text="${user.getUsername()}"></td>
+                                    <td style="display:none;" th:text="${user.getPassword()}"></td>
                                     <td>
                                         <p th:each="role : ${user.roles}"
                                            th:text="${role.name} + ' '"></p>
                                     </td>
                                     <td>
                                         <button
-                                                type="button" class="btn btn-primary" onclick="showModal()" data-type="edit">
+                                                type="button" class="btn btn-primary" onclick="showModal()"
+                                                data-type="edit">
                                             Edit
                                         </button>
                                     </td>
@@ -196,44 +199,47 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid text-center fs-5 fw-bold">
-                    <form action="#" th:action="@{/admin/edit}"
-                          th:object="${user}" method="POST" name="user">
-                        <p><input type="hidden" name="id" th:field="*{id}" />
-                        </p>
+                    <form action="#" th:action="@{/admin/edit}" method="POST" name="user" id="editUserModalForm">
+                        <div class="mb-3 mx-auto">
+                            <label class="form-label">ID
+                                <input class="form-control" type="text" name="id" id="id" readonly/>
+                            </label>
+                        </div>
+
+
                         <div class="mb-3 mx-auto">
                             <label class="form-label">First Name
-                                <input class="form-control" type="text" name="firstName" th:field="*{firstName}"/>
+                                <input class="form-control" type="text" name="firstName" id="firstName"/>
                             </label>
                         </div>
 
                         <div class="mb-3 mx-auto">
                             <label class="form-label">Last Name
-                                <input class="form-control" type="text" name="lastName" th:field="*{lastName}"/>
+                                <input class="form-control" type="text" name="lastName" id="lastName"/>
                             </label>
                         </div>
 
                         <div class="mb-3 mx-auto">
                             <label class="form-label">email
-                                <input class="form-control" type="email" name="email" th:field="*{email}"/>
+                                <input class="form-control" type="email" name="email" id="email"/>
                             </label>
                         </div>
 
                         <div class="mb-3 mx-auto">
                             <label class="form-label">Username
-                                <input class="form-control" type="text" name="username" th:field="*{username}"/>
+                                <input class="form-control" type="text" name="username" id="username"/>
                             </label>
                         </div>
 
                         <div class="mb-3 mx-auto">
                             <label class="form-label">Password
-                                <input class="form-control" type="password" name="password" th:field="*{password}"/>
+                                <input class="form-control" type="password" name="password" id="password"/>
                             </label>
                         </div>
 
                         <div class="mb-3 mx-auto">
                             <label class="form-label col-6">Role
-                                <select class="form-select form-select-lg" size="2" multiple
-                                        th:field="*{roles}">
+                                <select class="form-select form-select-lg" size="2" multiple name="roles" id="roles">
                                     <option th:each="role : ${roles}"
                                             th:field="*{roles}"
                                             th:value="${role.id}"
@@ -242,12 +248,13 @@
                                 </select>
                             </label>
                         </div>
+
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="submit" form="editUserModalForm" class="btn btn-primary">Edit</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Edit</button>
             </div>
         </div>
 
@@ -261,6 +268,18 @@
     const table = document.getElementById('user-info');
 
     const editUser = new bootstrap.Modal('#editUser');
+
+    var modal = document.getElementById('editUser')
+
+    var editUserModalForm = modal.querySelector('#editUserModalForm');
+
+    var id = editUserModalForm.querySelector('#id');
+    var firstName = editUserModalForm.querySelector('#firstName');
+    var lastName = editUserModalForm.querySelector('#lastName');
+    var email = editUserModalForm.querySelector('#email');
+    var username = editUserModalForm.querySelector('#username');
+    var password = editUserModalForm.querySelector('#password');
+    var roles = editUserModalForm.querySelector('#roles');
 
     table.addEventListener('click', (e) => {
         if (e.target.tagName !== 'BUTTON') return;
@@ -285,9 +304,14 @@
 
     function showModal(editData) {
         console.log(editData);
+        id.value = editData.ID;
+        firstName.value = editData["First Name"];
+        lastName.value = editData["Last Name"];
+        email.value = editData.Email;
+        username.value = editData.Username;
+        password.value = editData.Password;
+        roles.value = editData.Roles;
         editUser.show();
-        alert(editData.ID);
-        alert(editData.Username);
     }
 
 </script>

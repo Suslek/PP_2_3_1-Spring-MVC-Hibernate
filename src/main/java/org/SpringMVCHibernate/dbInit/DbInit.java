@@ -1,4 +1,4 @@
-package org.SpringMVCHibernate.DbInit;
+package org.SpringMVCHibernate.dbInit;
 
 import jakarta.annotation.PostConstruct;
 import org.SpringMVCHibernate.model.Role;
@@ -26,15 +26,19 @@ public class DbInit {
     private void postConstruct() {
         User admin = new User("admin", "admin", "admin", "admin", "admin");
         User normalUser = new User("user", "user", "user", "user", "user");
+        roleRepository.save(new Role(1L, "ROLE_ADMIN"));
+        roleRepository.save(new Role(2L, "ROLE_USER"));
+
+
         Set<Role> set = new HashSet<>(roleRepository.findAll());
 
-        normalUser.setRoles(Collections.singleton(new Role(1L, "USER")));
+        normalUser.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
         admin.setRoles(set);
 
-        if(userService.getByUsername(admin.getUsername()) == null){
+        if (userService.getByUsername(admin.getUsername()) == null) {
             userService.saveUser(admin);
         }
-        if(userService.getByUsername(normalUser.getUsername()) == null){
+        if (userService.getByUsername(normalUser.getUsername()) == null) {
             userService.saveUser(normalUser);
         }
 
