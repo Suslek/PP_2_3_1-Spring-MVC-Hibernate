@@ -39,9 +39,16 @@
     </div>
 
     <div class="row">
-        <div class="d-grid pe-0 gap-0 col-2 mt-4 my-5 mb-5 pb-5 text-start mh-10" style="height: 100px;">
-            <a href="#" class="btn btn-primary text-start" aria-current="page">Admin</a>
-            <a href="#" class="border-0 btn btn-primary text-start bg-white text-primary">User</a>
+        <div class="d-grid pe-0 gap-0 col-2 mt-4 my-5 mb-5 pb-5 text-start" style="height: 150px;">
+            <a href="#" th:href="@{/admin}"
+               class="btn btn-primary border-0 text-start" style="height: 50px;"
+               aria-current="page">
+                Admin
+            </a>
+            <a href="#" th:href="@{/user}" class="min-vh-25 border-0 bg-white text-primary btn btn-primary text-start"
+               style="height: 50px;">
+                User
+            </a>
         </div>
 
         <div class="col-10 bg-light vh-100">
@@ -104,14 +111,16 @@
                                     </td>
                                     <td>
                                         <button
-                                                type="button" class="btn btn-primary" onclick="showModal()"
+                                                type="button" class="btn btn-info text-white" onclick="showEditModal()"
                                                 data-type="edit">
                                             Edit
                                         </button>
                                     </td>
                                     <td>
-                                        <a href="#" class="btn btn-danger"
-                                           th:href="@{/admin/delete/(id=${user.getId()})}" data-type="delete">Delete</a>
+                                        <button type="button" class="btn btn-danger" onclick="showDeleteModal()"
+                                                data-type="delete">
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -202,44 +211,38 @@
                     <form action="#" th:action="@{/admin/edit}" method="POST" name="user" id="editUserModalForm">
                         <div class="mb-3 mx-auto">
                             <label class="form-label">ID
-                                <input class="form-control" type="text" name="id" id="id" readonly/>
+                                <input class="form-control bg-dark-subtle" type="text" name="id" id="edit-id" readonly/>
                             </label>
                         </div>
-
-
                         <div class="mb-3 mx-auto">
                             <label class="form-label">First Name
-                                <input class="form-control" type="text" name="firstName" id="firstName"/>
+                                <input class="form-control" type="text" name="firstName" id="edit-firstName"/>
                             </label>
                         </div>
-
                         <div class="mb-3 mx-auto">
                             <label class="form-label">Last Name
-                                <input class="form-control" type="text" name="lastName" id="lastName"/>
+                                <input class="form-control" type="text" name="lastName" id="edit-lastName"/>
                             </label>
                         </div>
-
                         <div class="mb-3 mx-auto">
                             <label class="form-label">email
-                                <input class="form-control" type="email" name="email" id="email"/>
+                                <input class="form-control" type="email" name="email" id="edit-email"/>
                             </label>
                         </div>
-
                         <div class="mb-3 mx-auto">
                             <label class="form-label">Username
-                                <input class="form-control" type="text" name="username" id="username"/>
+                                <input class="form-control" type="text" name="username" id="edit-username"/>
                             </label>
                         </div>
-
                         <div class="mb-3 mx-auto">
                             <label class="form-label">Password
-                                <input class="form-control" type="password" name="password" id="password"/>
+                                <input class="form-control" type="password" name="password" id="edit-password"/>
                             </label>
                         </div>
-
                         <div class="mb-3 mx-auto">
                             <label class="form-label col-6">Role
-                                <select class="form-select form-select-lg" size="2" multiple name="roles" id="roles">
+                                <select class="form-select form-select-lg" size="2" multiple name="roles"
+                                        id="edit-roles">
                                     <option th:each="role : ${roles}"
                                             th:field="*{roles}"
                                             th:value="${role.id}"
@@ -248,20 +251,84 @@
                                 </select>
                             </label>
                         </div>
-
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" form="editUserModalForm" class="btn btn-primary">Edit</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="editUserModalForm" class="btn btn-primary">Edit</button>
             </div>
         </div>
-
-
     </div>
+</div>
 
-
+<div class="modal fade" id="deleteUser" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="deleteUserLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteUserLabel">Delete User</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid text-center fs-5 fw-bold">
+                    <form action="#" th:action="@{/admin/delete/}" method="POST" name="user" id="deleteUserModalForm">
+                            <div class="mb-3 mx-auto">
+                                <label class="form-label">ID
+                                    <input class="form-control bg-dark-subtle" type="text" name="id" id="delete-id" readonly/>
+                                </label>
+                            </div>
+                            <div class="mb-3 mx-auto">
+                                <label class="form-label">First Name
+                                    <input class="form-control bg-dark-subtle" type="text" name="firstName" id="delete-firstName"
+                                           readonly/>
+                                </label>
+                            </div>
+                            <div class="mb-3 mx-auto">
+                                <label class="form-label">Last Name
+                                    <input class="form-control bg-dark-subtle" type="text" name="lastName" id="delete-lastName"
+                                           readonly/>
+                                </label>
+                            </div>
+                            <div class="mb-3 mx-auto">
+                                <label class="form-label">email
+                                    <input class="form-control bg-dark-subtle" type="email" name="email" id="delete-email" readonly/>
+                                </label>
+                            </div>
+                            <div class="mb-3 mx-auto">
+                                <label class="form-label">Username
+                                    <input class="form-control bg-dark-subtle" type="text" name="username" id="delete-username"
+                                           readonly/>
+                                </label>
+                            </div>
+                            <div class="mb-3 mx-auto">
+                                <label class="form-label">Password
+                                    <input class="form-control bg-dark-subtle" type="password" name="password" id="delete-password"
+                                           readonly/>
+                                </label>
+                            </div>
+                            <div class="mb-3 mx-auto">
+                                <label class="form-label col-6">Role
+                                    <select class="form-select form-select-lg bg-dark-subtle" size="2" multiple name="roles"
+                                            id="delete-roles">
+                                        <option th:each="role : ${roles}"
+                                                th:field="*{roles}"
+                                                th:value="${role.id}"
+                                                th:text="${role.name}">Role name
+                                        </option>
+                                    </select>
+                                </label>
+                            </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="deleteUserModalForm" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -269,17 +336,30 @@
 
     const editUser = new bootstrap.Modal('#editUser');
 
-    var modal = document.getElementById('editUser')
+    const deleteUser = new bootstrap.Modal('#deleteUser');
 
-    var editUserModalForm = modal.querySelector('#editUserModalForm');
+    var editModal = document.getElementById('editUser');
+    var deleteModal = document.getElementById('deleteUser');
 
-    var id = editUserModalForm.querySelector('#id');
-    var firstName = editUserModalForm.querySelector('#firstName');
-    var lastName = editUserModalForm.querySelector('#lastName');
-    var email = editUserModalForm.querySelector('#email');
-    var username = editUserModalForm.querySelector('#username');
-    var password = editUserModalForm.querySelector('#password');
-    var roles = editUserModalForm.querySelector('#roles');
+    var editUserModalForm = editModal.querySelector('#editUserModalForm');
+    var deleteUserModalForm = deleteModal.querySelector('#deleteUserModalForm');
+
+    var editId = editUserModalForm.querySelector('#edit-id');
+    var editFirstName = editUserModalForm.querySelector('#edit-firstName');
+    var editLastName = editUserModalForm.querySelector('#edit-lastName');
+    var editEmail = editUserModalForm.querySelector('#edit-email');
+    var editUsername = editUserModalForm.querySelector('#edit-username');
+    var editPassword = editUserModalForm.querySelector('#edit-password');
+    var editRoles = editUserModalForm.querySelector('#edit-roles');
+
+    var deleteId = deleteUserModalForm.querySelector('#delete-id');
+    var deleteFirstName = deleteUserModalForm.querySelector('#delete-firstName');
+    var deleteLastName = deleteUserModalForm.querySelector('#delete-lastName');
+    var deleteEmail = deleteUserModalForm.querySelector('#delete-email');
+    var deleteUsername = deleteUserModalForm.querySelector('#delete-username');
+    var deletePassword = deleteUserModalForm.querySelector('#delete-password');
+    var deleteRoles = deleteUserModalForm.querySelector('#delete-roles');
+
 
     table.addEventListener('click', (e) => {
         if (e.target.tagName !== 'BUTTON') return;
@@ -287,31 +367,47 @@
         const tr = e.target.closest('tr');
 
         if (e.target.dataset.type === 'edit') editRow(head, tr);
-        if (e.target.dataset.type === 'delete') deleteRow(tr);
+        if (e.target.dataset.type === 'delete') deleteRow(head, tr);
     });
 
     function editRow(head, tr) {
         const current = {};
-        for (let i = 0; i < tr.cells.length - 1; i++) {
+        for (let i = 0; i < tr.cells.length - 2; i++) {
             current[head[i].innerText] = tr.cells[i].innerText
         }
-        showModal(current)
+        showEditModal(current);
     }
 
-    function deleteRow(tr) {
-        tr.remove();
+    function deleteRow(head, tr) {
+        const current = {};
+        for (let i = 0; i < tr.cells.length - 2; i++) {
+            current[head[i].innerText] = tr.cells[i].innerText
+        }
+        showDeleteModal(current);
     }
 
-    function showModal(editData) {
+    function showEditModal(editData) {
         console.log(editData);
-        id.value = editData.ID;
-        firstName.value = editData["First Name"];
-        lastName.value = editData["Last Name"];
-        email.value = editData.Email;
-        username.value = editData.Username;
-        password.value = editData.Password;
-        roles.value = editData.Roles;
+        editId.value = editData.ID;
+        editFirstName.value = editData["First Name"];
+        editLastName.value = editData["Last Name"];
+        editEmail.value = editData.Email;
+        editUsername.value = editData.Username;
+        editPassword.value = editData.Password;
+        editRoles.value = editData.Roles;
         editUser.show();
+    }
+
+    function showDeleteModal(deleteData) {
+        console.log(deleteData);
+        deleteId.value = deleteData.ID;
+        deleteFirstName.value = deleteData["First Name"];
+        deleteLastName.value = deleteData["Last Name"];
+        deleteEmail.value = deleteData.Email;
+        deleteUsername.value = deleteData.Username;
+        deletePassword.value = deleteData.Password;
+        deleteRoles.value = deleteData.Roles;
+        deleteUser.show();
     }
 
 </script>

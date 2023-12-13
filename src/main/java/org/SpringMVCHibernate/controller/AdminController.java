@@ -31,30 +31,16 @@ public class AdminController {
         return "users";
     }
 
-    @GetMapping(value = "/admin/edit/")
-    public String viewEditPage(ModelMap model, @RequestParam Long id) {
-        model.addAttribute("user", userService.getById(id));
-        model.addAttribute("roles", roleService.getRoles());
-        return "editPage";
-    }
-
     @PostMapping(value = "/admin/edit")
     public String editUser(User user) {
         userService.updateUser(user);
         return ("redirect:/admin");
     }
 
-    @GetMapping(value = "/admin/delete/")
-    public String deleteUser(@RequestParam Long id) {
-        User user = userService.getById(id);
+    @PostMapping(value = "/admin/delete/")
+    public String deleteUser(User user) {
         userService.deleteUser(user);
         return ("redirect:/admin");
-    }
-
-    @GetMapping(value = "/admin/create")
-    public String viewCreatePage(ModelMap model,User user) {
-        model.addAttribute("roles", roleService.getRoles());
-        return "editPage";
     }
 
     @PostMapping(value = "/admin/create")
