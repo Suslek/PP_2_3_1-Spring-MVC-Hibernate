@@ -2,6 +2,7 @@ package org.SpringMVCHibernate.service;
 
 import org.SpringMVCHibernate.model.Role;
 import org.SpringMVCHibernate.model.User;
+import org.SpringMVCHibernate.repository.RoleRepository;
 import org.SpringMVCHibernate.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,9 +22,7 @@ public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
 
-
-
-    public UserServiceImp(UserRepository userRepository) {
+    public UserServiceImp(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
     }
 
@@ -39,7 +38,7 @@ public class UserServiceImp implements UserService {
     @Override
     public void saveUser(User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
     }
 
     @Transactional
@@ -49,7 +48,7 @@ public class UserServiceImp implements UserService {
         if (!Objects.equals(user.getPassword(), userOld.getPassword())) {
             user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         }
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
     }
 
     @Transactional

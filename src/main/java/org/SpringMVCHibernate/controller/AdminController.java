@@ -3,15 +3,15 @@ package org.SpringMVCHibernate.controller;
 import org.SpringMVCHibernate.model.User;
 import org.SpringMVCHibernate.service.RoleService;
 import org.SpringMVCHibernate.service.UserService;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("admin")
 public class AdminController {
 
     private final UserService userService;
@@ -22,31 +22,36 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping(value = "/admin")
-    public String viewAdminPage(ModelMap model, Principal principal, User newUser) {
-        model.addAttribute("roles", roleService.getRoles());
-        model.addAttribute("users", userService.getUsers());
-        model.addAttribute("user", userService.getByUsername(principal.getName()));
-        model.addAttribute("newUser", new User());
-        return "users";
+    @GetMapping(value = "")
+    public ModelAndView viewAdminPage(Principal principal) {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("users");
+        model.addObject("roles", roleService.getRoles());
+        model.addObject("users", userService.getUsers());
+        model.addObject("user", userService.getByUsername(principal.getName()));
+        model.addObject("newUser", new User());
+        return model;
     }
 
-    @PostMapping(value = "/admin/edit")
-    public String editUser(User user) {
+    @PutMapping(value = "")
+    public List<User> editUser(@RequestBody User user) {
         userService.updateUser(user);
-        return ("redirect:/admin");
+        return userService.getUsers();
     }
 
-    @PostMapping(value = "/admin/delete/")
-    public String deleteUser(User user) {
+    @DeleteMapping(value = "/delete")
+    public List<User> deleteUser(@RequestParam Long id) {
+        User user = userService.getById(id);
         userService.deleteUser(user);
-        return ("redirect:/admin");
+        return userService.getUsers();
     }
 
-    @PostMapping(value = "/admin/create")
-    public String createUser(User user) {
+    @PostMapping(value = "")
+    public List<User> createUser(@RequestBody User user) {
+        System.out.println(user);
         userService.saveUser(user);
-        return ("redirect:/admin");
+        List<User> users = userService.getUsers();
+        return users;
     }
 
 }

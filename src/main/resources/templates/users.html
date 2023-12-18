@@ -139,45 +139,47 @@
                         </div>
                         <div class="container-fluid border text-center fs-5 fw-bold">
 
-                            <form action="#" th:action="@{/admin/create}"
+                            <form action="#" th:action="@{/admin/create}" id="createUserForm"
                                   th:object="${newUser}" method="POST">
                                 <p th:if="${newUser.id != null }"><input type="hidden" name="id" th:field="*{id}"/></p>
                                 <div class="mb-3 mx-auto">
                                     <label class="form-label col-3">First Name
-                                        <input class="form-control" type="text" name="firstName"
+                                        <input id="firstName" class="form-control" type="text" name="firstName"
                                                th:field="*{firstName}"/>
                                     </label>
                                 </div>
 
                                 <div class="mb-3 mx-auto">
                                     <label class="form-label col-3">Last Name
-                                        <input class="form-control" type="text" name="lastName" th:field="*{lastName}"/>
+                                        <input id="lastName" class="form-control" type="text" name="lastName"
+                                               th:field="*{lastName}"/>
                                     </label>
                                 </div>
 
                                 <div class="mb-3 mx-auto">
                                     <label class="form-label col-3">email
-                                        <input class="form-control" type="email" name="email" th:field="*{email}"/>
+                                        <input id="email" class="form-control" type="email" name="email"
+                                               th:field="*{email}"/>
                                     </label>
                                 </div>
 
                                 <div class="mb-3 mx-auto">
                                     <label class="form-label col-3">Username
-                                        <input class="form-control" type="text" name="username" th:field="*{username}"/>
+                                        <input id="username" class="form-control" type="text" name="username"
+                                               th:field="*{username}"/>
                                     </label>
                                 </div>
 
                                 <div class="mb-3 mx-auto">
                                     <label class="form-label col-3">Password
-                                        <input class="form-control" type="password" name="password"
+                                        <input id="password" class="form-control" type="password" name="password"
                                                th:field="*{password}"/>
                                     </label>
                                 </div>
 
                                 <div class="mb-3 mx-auto">
                                     <label class="form-label col-3">Role
-                                        <select class="form-select form-select-lg" size="2" multiple
-                                                th:field="*{roles}">
+                                        <select id="roles" class="form-select form-select-lg" size="2" multiple>
                                             <option th:each="role : ${roles}"
                                                     th:field="*{roles}"
                                                     th:value="${role.id}"
@@ -187,7 +189,8 @@
                                     </label>
                                 </div>
 
-                                <p><input class="btn btn-success" type="submit" value="Add new User"></p>
+                                <p><input class="btn btn-success" type="button" onclick="createUser()"
+                                          value="Add new User"></p>
                             </form>
                         </div>
                     </div>
@@ -211,38 +214,38 @@
                     <form action="#" th:action="@{/admin/edit}" method="POST" name="user" id="editUserModalForm">
                         <div class="mb-3 mx-auto">
                             <label class="form-label">ID
-                                <input class="form-control bg-dark-subtle" type="text" name="id" id="edit-id" readonly/>
+                                <input class="form-control bg-dark-subtle" type="text" name="id" id="editId" readonly/>
                             </label>
                         </div>
                         <div class="mb-3 mx-auto">
                             <label class="form-label">First Name
-                                <input class="form-control" type="text" name="firstName" id="edit-firstName"/>
+                                <input class="form-control" type="text" name="firstName" id="editFirstName"/>
                             </label>
                         </div>
                         <div class="mb-3 mx-auto">
                             <label class="form-label">Last Name
-                                <input class="form-control" type="text" name="lastName" id="edit-lastName"/>
+                                <input class="form-control" type="text" name="lastName" id="editLastName"/>
                             </label>
                         </div>
                         <div class="mb-3 mx-auto">
                             <label class="form-label">email
-                                <input class="form-control" type="email" name="email" id="edit-email"/>
+                                <input class="form-control" type="email" name="email" id="editEmail"/>
                             </label>
                         </div>
                         <div class="mb-3 mx-auto">
                             <label class="form-label">Username
-                                <input class="form-control" type="text" name="username" id="edit-username"/>
+                                <input class="form-control" type="text" name="username" id="editUsername"/>
                             </label>
                         </div>
                         <div class="mb-3 mx-auto">
                             <label class="form-label">Password
-                                <input class="form-control" type="password" name="password" id="edit-password"/>
+                                <input class="form-control" type="password" name="password" id="editPassword"/>
                             </label>
                         </div>
                         <div class="mb-3 mx-auto">
                             <label class="form-label col-6">Role
                                 <select class="form-select form-select-lg" size="2" multiple name="roles"
-                                        id="edit-roles">
+                                        id="editRoles">
                                     <option th:each="role : ${roles}"
                                             th:field="*{roles}"
                                             th:value="${role.id}"
@@ -256,7 +259,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" form="editUserModalForm" class="btn btn-primary">Edit</button>
+                <button type="button" onclick="editUserFetch()" class="btn btn-primary">Edit</button>
             </div>
         </div>
     </div>
@@ -273,59 +276,68 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid text-center fs-5 fw-bold">
-                    <form action="#" th:action="@{/admin/delete/}" method="POST" name="user" id="deleteUserModalForm">
-                            <div class="mb-3 mx-auto">
-                                <label class="form-label">ID
-                                    <input class="form-control bg-dark-subtle" type="text" name="id" id="delete-id" readonly/>
-                                </label>
-                            </div>
-                            <div class="mb-3 mx-auto">
-                                <label class="form-label">First Name
-                                    <input class="form-control bg-dark-subtle" type="text" name="firstName" id="delete-firstName"
-                                           readonly/>
-                                </label>
-                            </div>
-                            <div class="mb-3 mx-auto">
-                                <label class="form-label">Last Name
-                                    <input class="form-control bg-dark-subtle" type="text" name="lastName" id="delete-lastName"
-                                           readonly/>
-                                </label>
-                            </div>
-                            <div class="mb-3 mx-auto">
-                                <label class="form-label">email
-                                    <input class="form-control bg-dark-subtle" type="email" name="email" id="delete-email" readonly/>
-                                </label>
-                            </div>
-                            <div class="mb-3 mx-auto">
-                                <label class="form-label">Username
-                                    <input class="form-control bg-dark-subtle" type="text" name="username" id="delete-username"
-                                           readonly/>
-                                </label>
-                            </div>
-                            <div class="mb-3 mx-auto">
-                                <label class="form-label">Password
-                                    <input class="form-control bg-dark-subtle" type="password" name="password" id="delete-password"
-                                           readonly/>
-                                </label>
-                            </div>
-                            <div class="mb-3 mx-auto">
-                                <label class="form-label col-6">Role
-                                    <select class="form-select form-select-lg bg-dark-subtle" size="2" multiple name="roles"
-                                            id="delete-roles">
-                                        <option th:each="role : ${roles}"
-                                                th:field="*{roles}"
-                                                th:value="${role.id}"
-                                                th:text="${role.name}">Role name
-                                        </option>
-                                    </select>
-                                </label>
-                            </div>
+                    <form action="#" th:action="@{/admin/delete}" th:method="DELETE" name="user"
+                          id="deleteUserModalForm">
+                        <div class="mb-3 mx-auto">
+                            <label class="form-label">ID
+                                <input class="form-control bg-dark-subtle" type="text" name="id" id="delete-id"
+                                       readonly/>
+                            </label>
+                        </div>
+                        <div class="mb-3 mx-auto">
+                            <label class="form-label">First Name
+                                <input class="form-control bg-dark-subtle" type="text" name="firstName"
+                                       id="delete-firstName"
+                                       readonly/>
+                            </label>
+                        </div>
+                        <div class="mb-3 mx-auto">
+                            <label class="form-label">Last Name
+                                <input class="form-control bg-dark-subtle" type="text" name="lastName"
+                                       id="delete-lastName"
+                                       readonly/>
+                            </label>
+                        </div>
+                        <div class="mb-3 mx-auto">
+                            <label class="form-label">email
+                                <input class="form-control bg-dark-subtle" type="email" name="email" id="delete-email"
+                                       readonly/>
+                            </label>
+                        </div>
+                        <div class="mb-3 mx-auto">
+                            <label class="form-label">Username
+                                <input class="form-control bg-dark-subtle" type="text" name="username"
+                                       id="delete-username"
+                                       readonly/>
+                            </label>
+                        </div>
+                        <div class="mb-3 mx-auto">
+                            <label class="form-label">Password
+                                <input class="form-control bg-dark-subtle" type="password" name="password"
+                                       id="delete-password"
+                                       readonly/>
+                            </label>
+                        </div>
+                        <div class="mb-3 mx-auto">
+                            <label class="form-label col-6">Role
+                                <select class="form-select form-select-lg bg-dark-subtle" size="2" multiple name="roles"
+                                        id="delete-roles">
+                                    <option th:each="role : ${roles}"
+                                            th:field="*{roles}"
+                                            th:value="${role.id}"
+                                            th:text="${role.name}">Role name
+                                    </option>
+                                </select>
+                            </label>
+                        </div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" form="deleteUserModalForm" class="btn btn-danger">Delete</button>
+                <button type="button" data-type="delete-user" onclick="deleteUserById()"
+                        class="btn btn-danger">Delete
+                </button>
             </div>
         </div>
     </div>
@@ -344,13 +356,13 @@
     var editUserModalForm = editModal.querySelector('#editUserModalForm');
     var deleteUserModalForm = deleteModal.querySelector('#deleteUserModalForm');
 
-    var editId = editUserModalForm.querySelector('#edit-id');
-    var editFirstName = editUserModalForm.querySelector('#edit-firstName');
-    var editLastName = editUserModalForm.querySelector('#edit-lastName');
-    var editEmail = editUserModalForm.querySelector('#edit-email');
-    var editUsername = editUserModalForm.querySelector('#edit-username');
-    var editPassword = editUserModalForm.querySelector('#edit-password');
-    var editRoles = editUserModalForm.querySelector('#edit-roles');
+    var editId = editUserModalForm.querySelector('#editId');
+    var editFirstName = editUserModalForm.querySelector('#editFirstName');
+    var editLastName = editUserModalForm.querySelector('#editLastName');
+    var editEmail = editUserModalForm.querySelector('#editEmail');
+    var editUsername = editUserModalForm.querySelector('#editUsername');
+    var editPassword = editUserModalForm.querySelector('#editPassword');
+    var editRoles = editUserModalForm.querySelector('#editRoles');
 
     var deleteId = deleteUserModalForm.querySelector('#delete-id');
     var deleteFirstName = deleteUserModalForm.querySelector('#delete-firstName');
@@ -381,7 +393,7 @@
     function deleteRow(head, tr) {
         const current = {};
         for (let i = 0; i < tr.cells.length - 2; i++) {
-            current[head[i].innerText] = tr.cells[i].innerText
+            current[head[i].innerText] = tr.cells[i].innerText;
         }
         showDeleteModal(current);
     }
@@ -409,6 +421,132 @@
         deleteRoles.value = deleteData.Roles;
         deleteUser.show();
     }
+
+    function deleteUserById() {
+        console.log(deleteId);
+        fetch('/admin/delete?id=' + deleteId.value, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => fillTable(data))
+            .catch(error => console.error(error))
+    }
+
+    function createUser() {
+        const form = document.getElementById('createUserForm');
+        const select = document.getElementById('roles');
+
+        select.onchange = (event) => {
+            const selectedOptions = Array.from(event.target.selectedOptions);
+            user.roles = selectedOptions.map((option) => {
+                return {id: option.value, name: option.text};
+            });
+        };
+
+        const user = {
+            firstName: form.elements.firstName.value,
+            lastName: form.elements.lastName.value,
+            email: form.elements.email.value,
+            username: form.elements.username.value,
+            password: form.elements.password.value,
+            roles: getSelectedRoles(select)
+        };
+
+        console.log(user);
+
+        fetch('/admin' +
+            '', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(response => response.json())
+            .then(data => fillTable(data))
+            .catch(error => console.error(error))
+    }
+
+    function editUserFetch() {
+        const form = document.getElementById('editUserModalForm')
+        const select = document.getElementById('editRoles');
+
+        const user = {
+            id: form.elements.editId.value,
+            firstName: form.elements.editFirstName.value,
+            lastName: form.elements.editLastName.value,
+            email: form.elements.editEmail.value,
+            username: form.elements.editUsername.value,
+            password: form.elements.editPassword.value,
+            roles: getSelectedRoles(select)
+        };
+
+        console.log(user);
+
+        fetch('/admin' +
+            '', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(response => response.json())
+            .then(data => fillTable(data))
+            .catch(error => console.error(error))
+    }
+
+    function fillTable(data) {
+        console.log(data);
+        const tableBody = document.getElementById('user-info');
+
+        while (tableBody.childElementCount !== 1) {
+            tableBody.removeChild(tableBody.lastChild);
+        }
+        data.forEach((item) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+            <tr class="table table-light table-striped text-center border-top" >
+            <td>${item.id}</td>
+            <td>${item.firstName}</td>
+            <td>${item.lastName}</td>
+            <td>${item.email}</td>
+            <td>${item.username}</td>
+            <td style="display:none;" >${item.password}</td>
+            <td>
+                ${item.roles.map((role) => `${role.name}`).join('\n')}
+            </td>
+            <td>
+                <button
+                       type="button" class="btn btn-info text-white" onclick="showEditModal()"
+                       data-type="edit">
+                       Edit
+                </button>
+            </td>
+            <td>
+                 <button type="button" class="btn btn-danger" onclick="showDeleteModal()"
+                        data-type="delete">
+                        Delete
+                 </button>
+            </td>
+            </tr>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function getSelectedRoles(select) {
+        const selectedOptions = Array.from(select.selectedOptions);
+        return selectedOptions.map((option) => {
+            const id = option.value;
+            const name = option.text === 'null' ? null : option.text;
+            return {id, name};
+        });
+    }
+
 
 </script>
 
