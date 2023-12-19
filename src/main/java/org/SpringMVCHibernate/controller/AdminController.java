@@ -50,8 +50,7 @@ public class AdminController {
     public List<User> createUser(@RequestBody User user) {
         System.out.println(user);
         userService.saveUser(user);
-        List<User> users = userService.getUsers();
-        return users;
+        return userService.getUsers();
     }
 
 }

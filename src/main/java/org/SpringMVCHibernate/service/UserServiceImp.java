@@ -22,7 +22,7 @@ public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
 
-    public UserServiceImp(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImp(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
