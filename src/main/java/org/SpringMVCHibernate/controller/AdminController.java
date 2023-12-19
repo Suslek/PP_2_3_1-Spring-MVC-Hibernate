@@ -3,11 +3,12 @@ package org.SpringMVCHibernate.controller;
 import org.SpringMVCHibernate.model.User;
 import org.SpringMVCHibernate.service.RoleService;
 import org.SpringMVCHibernate.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.util.List;
 
 @RestController
 @RequestMapping("admin")
@@ -33,23 +34,23 @@ public class AdminController {
     }
 
     @PutMapping(value = "")
-    public List<User> editUser(@RequestBody User user) {
+    public ResponseEntity<?> editUser(@RequestBody User user) {
         userService.updateUser(user);
-        return userService.getUsers();
+        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/delete")
-    public List<User> deleteUser(@RequestParam Long id) {
+    public ResponseEntity<?> deleteUser(@RequestParam Long id) {
         User user = userService.getById(id);
         userService.deleteUser(user);
-        return userService.getUsers();
+        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
     @PostMapping(value = "")
-    public List<User> createUser(@RequestBody User user) {
+    public ResponseEntity<?> createUser(@RequestBody User user) {
         System.out.println(user);
         userService.saveUser(user);
-        return userService.getUsers();
+        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
 }

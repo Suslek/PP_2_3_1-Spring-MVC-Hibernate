@@ -64,9 +64,9 @@
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="newUserTab" data-bs-toggle="tab" data-bs-target="#newUser" type="button"
+                        <button class="nav-link" id="newUserTab" data-bs-toggle="tab" data-bs-target="#newUser" type="button"
                            role="tab" aria-controls="newUser" aria-selected="false">New
-                            User</a>
+                            User</button>
                     </li>
                 </ul>
 
@@ -259,7 +259,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" onclick="editUserFetch()" class="btn btn-primary">Edit</button>
+                <button type="button" onclick="editUserFetch()" class="btn btn-primary" data-bs-dismiss="modal">Edit
+                </button>
             </div>
         </div>
     </div>
@@ -336,7 +337,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" data-type="delete-user" onclick="deleteUserById()"
-                        class="btn btn-danger">Delete
+                        class="btn btn-danger" data-bs-dismiss="modal">Delete
                 </button>
             </div>
         </div>
@@ -436,6 +437,7 @@
     }
 
     function createUser() {
+        const trigger = document.querySelector('#myTab li:first-child button');
         const form = document.getElementById('createUserForm');
         const select = document.getElementById('roles');
 
@@ -455,8 +457,6 @@
             roles: getSelectedRoles(select)
         };
 
-        console.log(user);
-
         fetch('/admin' +
             '', {
             method: 'POST',
@@ -468,6 +468,8 @@
             .then(response => response.json())
             .then(data => fillTable(data))
             .catch(error => console.error(error))
+
+        bootstrap.Tab.getInstance(trigger).show();
     }
 
     function editUserFetch() {
