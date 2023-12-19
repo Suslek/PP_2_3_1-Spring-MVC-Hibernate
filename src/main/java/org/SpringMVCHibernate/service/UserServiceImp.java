@@ -2,7 +2,6 @@ package org.SpringMVCHibernate.service;
 
 import org.SpringMVCHibernate.model.Role;
 import org.SpringMVCHibernate.model.User;
-import org.SpringMVCHibernate.repository.RoleRepository;
 import org.SpringMVCHibernate.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

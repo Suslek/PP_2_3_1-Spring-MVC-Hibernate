@@ -3,7 +3,6 @@ package org.SpringMVCHibernate.controller;
 import org.SpringMVCHibernate.model.User;
 import org.SpringMVCHibernate.service.RoleService;
 import org.SpringMVCHibernate.service.UserService;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
